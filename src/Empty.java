@@ -1,22 +1,25 @@
 public class Empty extends Block {
-    private boolean hidden = true;
+    private boolean hidden;
+    private boolean flag;
     private int bombNumber;
 
     public Empty(int b) {
+        super();
         bombNumber = b;
     }
 
-    public boolean click() {
-        return true;
-        // return true bc no boomboom
-    }
-
-    public boolean isBomb() {
-        return true;
-    }
-
-    public void found() {
+    public byte click() {
+        if(flag)
+            return 0;
         hidden = false;
+        return 1;
+    }
+    public boolean isBomb(){
+        return false;
+    }
+
+    public boolean hasFlag(){
+        return flag;
     }
 
     public int getBombNumber() {

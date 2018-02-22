@@ -16,7 +16,7 @@ public class Play {
             System.out.println("enter number of bombs");
             b = s.nextInt();
             // if there are not more bombs than spaces available
-            if (b < l * w * h * t && b >= 0) {
+            if (b < l * w * h * t && b >= 1) {
                 break;
             } else {
                 System.out.println("Invalid number of bombs\n");

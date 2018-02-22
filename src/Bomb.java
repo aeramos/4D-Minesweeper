@@ -1,10 +1,19 @@
 public class Bomb extends Block {
-    public boolean isBomb() {
-        return true;
+    private boolean flag;
+    public Bomb(){
+        super();
+    }
+    public byte click() {
+        if(flag)
+            return 0;
+        return 2;
+        //return 2 bc big boomboom
     }
 
-    public boolean click() {
-        return false;
-        //return false bc big boomboom
+    public boolean isBomb(){
+        return true;
+    }
+    public boolean hasFlag(){
+        return flag;
     }
 }
