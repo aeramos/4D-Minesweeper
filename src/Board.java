@@ -26,22 +26,6 @@ public class Board {
             }
         } while (bombsLeftToPlace > 0);
 
-        /*
-        //places all bombs
-        for (int x = 0; x < bombs; x++) {
-            int[] coords = new int[4];
-            for (int i = 0; i < 4; i++) {
-                coords[i] = (int)(Math.random() * i == 0 ? length - 1 : i == 1 ? width - 1 : i == 2 ? height - 1 : time - 1);
-            }
-            if (board[coords[0]][coords[1]][coords[2]][coords[3]] == null) {
-                board[coords[0]][coords[1]][coords[2]][coords[3]] = new Bomb();
-            } else {
-                x--;
-            }
-        }
-        //end of bomb placement
-        */
-
         //places all empty blocks
         for (int l = 0; l < length; l++) {
             for (int w = 0; w < width; w++) {
