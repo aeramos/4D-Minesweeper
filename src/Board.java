@@ -7,7 +7,7 @@ public class Board {
     private int bombs;
 
     public Board(int length, int width, int height, int time, int bombs) {
-        board = new Block[length][width][height][time];
+        this.board = new Block[length][width][height][time];
         this.length = length;
         this.width = width;
         this.height = height;
@@ -59,16 +59,49 @@ public class Board {
         return number;
     }
 
-    public void print2DSample() {
+    public void print1D(int width, int height, int time) {
+        for (int l = 0; l < length; l++) {
+            if (board[l][width][height][time].isBomb()) {
+                System.out.print("B");
+            } else {
+                System.out.print("E");
+            }
+        }
+    }
+
+    public void print2D(int height, int time) {
         for (int l = 0; l < length; l++) {
             for (int w = 0; w < width; w++) {
-                if (board[l][w][0][0].isBomb()) {
+                if (board[l][w][height][time].isBomb()) {
                     System.out.print("B");
                 } else {
                     System.out.print("E");
                 }
             }
             System.out.println();
+        }
+    }
+
+    public void print3D(int time) {
+        for (int l = 0; l < length; l++) {
+            for (int w = 0; w < width; w++) {
+                for (int h = 0; h < height; h++) {
+                    if (board[l][w][h][time].isBomb()) {
+                        System.out.print("B ");
+                    } else {
+                        System.out.print("E ");
+                    }
+                }
+                System.out.print("   ");
+            }
+            System.out.println();
+        }
+    }
+
+    public void print4D() {
+        for (int t = 0; t < time; t++) {
+            print3D(t);
+            System.out.print("\n\n");
         }
     }
 }

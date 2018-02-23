@@ -23,7 +23,7 @@ public class Play {
             }
         }
         Board board = new Board(l, w, h, t, b);
-        board.print2DSample();
+        board.print4D();
         scanner.close();
     }
 }
