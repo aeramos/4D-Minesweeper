@@ -56,30 +56,23 @@ public class Board {
         }
     }
 
-    public int findBombNumber(int l, int w, int h, int t) {
-        int count = 0;
-        for (int l1 = l - 1; l1 <= l + 1; l1++) {
-            if (l1 >= 0 && l1 < length) {
-                for (int w1 = w - 1; w1 <= w + 1; w1++) {
-                    if (w1 >= 0 && w1 < width) {
-                        for (int h1 = h - 1; h1 <= h + 1; h1++) {
-                            if (h1 >= 0 && h1 < height) {
-                                for (int t1 = t - 1; t1 <= t + 1; t1++) {
-                                    if (t1 >= 0 && t1 < time) {
-                                        if (board[l1][w1][h1][t1] != null) {
-                                            if (board[l1][w1][h1][t1].isBomb()) {
-                                                count++;
-                                            }
-                                        }
-                                    }
-                                }
+    public int findBombNumber(int length, int width, int height, int time) {
+        int number = 0;
+        for (int l = length - 1; l <= length + 1; l++) {
+            for (int w = width - 1; w <= width + 1; w++) {
+                for (int h = height - 1; h <= height + 1; h++) {
+                    for (int t = time - 1; t <= time + 1; t++) {
+                        try {
+                            if (board[l][w][h][t].isBomb()) {
+                                number++;
                             }
+                        } catch (NullPointerException | IndexOutOfBoundsException ignored) {
                         }
                     }
                 }
             }
         }
-        return count;
+        return number;
     }
 
     public void print2DSample() {
@@ -88,15 +81,10 @@ public class Board {
                 if (board[l][w][0][0].isBomb()) {
                     System.out.print("B");
                 } else {
-                    System.out.println("E");
+                    System.out.print("E");
                 }
             }
             System.out.println();
         }
     }
 }
-
-
-
-
-
