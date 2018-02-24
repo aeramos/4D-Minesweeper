@@ -4,6 +4,7 @@ public abstract class Block {
     private boolean question;
 
     public Block() {
+        hidden = true;
         flag = false;
         question = false;
     }

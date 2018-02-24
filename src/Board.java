@@ -4,17 +4,21 @@ public class Board {
     private int height;
     private int time;
     private Block[][][][] board;
-    private int bombs;
+    private int numberBombs;
+    private int numberHidden;
+    private int numberFlagged;
 
-    public Board(int length, int width, int height, int time, int bombs) {
+    public Board(int length, int width, int height, int time, int numberBombs) {
         this.board = new Block[length][width][height][time];
         this.length = length;
         this.width = width;
         this.height = height;
         this.time = time;
-        this.bombs = bombs;
+        this.numberBombs = numberBombs;
+        this.numberHidden = length * width * height * time;
+        this.numberFlagged = 0;
 
-        int bombsLeftToPlace = bombs;
+        int bombsLeftToPlace = numberBombs;
         do {
             int lengthIndex = (int)(Math.random() * length);
             int widthIndex = (int)(Math.random() * width);
@@ -95,13 +99,15 @@ public class Board {
 
     public String getOutput(Block block) {
         if (block.isHidden()) {
-            return "XX";
-        } else {
             if (block.isFlag()) {
                 return "FF";
             } else if (block.isQuestion()) {
                 return "??";
-            } else if (block.isBomb()) {
+            } else {
+                return "XX";
+            }
+        } else {
+            if (block.isBomb()) {
                 return "BB";
             } else {
                 if (((Empty)block).getNumber() >= 10) {
@@ -109,6 +115,87 @@ public class Board {
                 } else {
                     return "0" + String.valueOf(((Empty)block).getNumber());
                 }
+            }
+        }
+    }
+
+    public boolean exists(int length, int width, int height, int time) {
+        try {
+            return board[length][width][height][time] != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // returns true if player wins, false if player loses, null otherwise
+    public Boolean reveal(int length, int width, int height, int time) {
+        Block block = board[length][width][height][time];
+        if (!block.isHidden()) {
+            return null;
+        } else {
+            block.setQuestion(false);
+
+            block.setHidden(false);
+            numberHidden--;
+
+            if (block.isFlag()) {
+                block.setFlag(false);
+                numberFlagged--;
+            }
+        }
+        if (block.isBomb()) {
+            return false;
+        } else {
+            if (((Empty)block).getNumber() == 0) {
+                for (int l = length - 1; l <= length + 1; l++) {
+                    for (int w = width - 1; w <= width + 1; w++) {
+                        for (int h = height - 1; h <= height + 1; h++) {
+                            for (int t = time - 1; t <= time + 1; t++) {
+                                if (!(l == length && w == width && h == height && t == time)) {
+                                    try {
+                                        Boolean result = reveal(l, w, h, t);
+                                        if (result != null) {
+                                            return result;
+                                        }
+                                    } catch (IndexOutOfBoundsException ignored) {
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (numberHidden == numberBombs && numberFlagged == numberBombs) {
+            return true;
+        } else {
+            return null;
+        }
+    }
+
+    public Boolean flag(int length, int width, int height, int time) {
+        if (board[length][width][height][time].isHidden()) {
+            if (!board[length][width][height][time].isFlag()) {
+                board[length][width][height][time].setFlag(true);
+                numberFlagged++;
+                if (numberHidden == numberBombs && numberFlagged == numberBombs) {
+                    return true;
+                }
+            } else {
+                board[length][width][height][time].setFlag(false);
+                numberFlagged--;
+            }
+        }
+        return null;
+    }
+
+    // toggle question mark
+    public void question(int length, int width, int height, int time) {
+        if (board[length][width][height][time].isHidden()) {
+            if (!board[length][width][height][time].isQuestion()) {
+                board[length][width][height][time].setQuestion(true);
+            } else {
+                board[length][width][height][time].setQuestion(false);
             }
         }
     }
