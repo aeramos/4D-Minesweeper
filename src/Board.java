@@ -61,22 +61,14 @@ public class Board {
 
     public void print1D(int width, int height, int time) {
         for (int l = 0; l < length; l++) {
-            if (board[l][width][height][time].isBomb()) {
-                System.out.print("B");
-            } else {
-                System.out.print("E");
-            }
+            System.out.print(getOutput(board[l][width][height][time]));
         }
     }
 
     public void print2D(int height, int time) {
         for (int l = 0; l < length; l++) {
             for (int w = 0; w < width; w++) {
-                if (board[l][w][height][time].isBomb()) {
-                    System.out.print("B");
-                } else {
-                    System.out.print("E");
-                }
+                System.out.print(getOutput(board[l][w][height][time]));
             }
             System.out.println();
         }
@@ -86,11 +78,7 @@ public class Board {
         for (int l = 0; l < length; l++) {
             for (int w = 0; w < width; w++) {
                 for (int h = 0; h < height; h++) {
-                    if (board[l][w][h][time].isBomb()) {
-                        System.out.print("B ");
-                    } else {
-                        System.out.print("E ");
-                    }
+                    System.out.print(getOutput(board[l][w][h][time]) + " ");
                 }
                 System.out.print("   ");
             }
@@ -102,6 +90,26 @@ public class Board {
         for (int t = 0; t < time; t++) {
             print3D(t);
             System.out.print("\n\n");
+        }
+    }
+
+    public String getOutput(Block block) {
+        if (block.isHidden()) {
+            return "XX";
+        } else {
+            if (block.isFlag()) {
+                return "FF";
+            } else if (block.isQuestion()) {
+                return "??";
+            } else if (block.isBomb()) {
+                return "BB";
+            } else {
+                if (((Empty)block).getNumber() >= 10) {
+                    return String.valueOf(((Empty)block).getNumber());
+                } else {
+                    return "0" + String.valueOf(((Empty)block).getNumber());
+                }
+            }
         }
     }
 }

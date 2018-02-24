@@ -1,15 +1,42 @@
 public abstract class Block {
+    private boolean hidden;
     private boolean flag;
-    public Block(){
+    private boolean question;
+
+    public Block() {
         flag = false;
+        question = false;
     }
-    public abstract byte click();
-    /*
-    * 0 = nothing happens
-    * 1 = block revealed
-    * 2 = mine triggered
-    * */
 
     public abstract boolean isBomb();
-    public abstract boolean hasFlag();
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+        if (flag) {
+            this.question = false;
+        }
+    }
+
+    public boolean isQuestion() {
+        return question;
+    }
+
+    public void setQuestion(boolean question) {
+        this.question = question;
+        if (question) {
+            this.flag = false;
+        }
+    }
 }
