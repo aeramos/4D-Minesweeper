@@ -54,7 +54,8 @@ public class Board {
                             if (board[l][w][h][t].isBomb()) {
                                 number++;
                             }
-                        } catch (NullPointerException | IndexOutOfBoundsException ignored) {
+                        } catch (NullPointerException ignored) {
+                        } catch (IndexOutOfBoundsException ignored) {
                         }
                     }
                 }
@@ -79,9 +80,9 @@ public class Board {
     }
 
     public void print3D(int time) {
-        for (int l = 0; l < length; l++) {
-            for (int w = 0; w < width; w++) {
-                for (int h = 0; h < height; h++) {
+        for (int w = 0; w < width; w++) {
+            for (int h = 0; h < height; h++) {
+                for (int l = 0; l < length; l++) {
                     System.out.print(getOutput(board[l][w][h][time]) + " ");
                 }
                 System.out.print("   ");
