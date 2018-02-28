@@ -7,6 +7,7 @@ public class Board {
     private int numberBombs;
     private int numberHidden;
     private int numberFlagged;
+    private boolean hasNotLost = true;
 
     public Board(int length, int width, int height, int time, int numberBombs) {
         this.board = new Block[length][width][height][time];
@@ -64,21 +65,6 @@ public class Board {
         return number;
     }
 
-    public void print1D(int width, int height, int time) {
-        for (int l = 0; l < length; l++) {
-            System.out.print(getOutput(board[l][width][height][time]));
-        }
-    }
-
-    public void print2D(int height, int time) {
-        for (int l = 0; l < length; l++) {
-            for (int w = 0; w < width; w++) {
-                System.out.print(getOutput(board[l][w][height][time]));
-            }
-            System.out.println();
-        }
-    }
-
     public void print3D(int time) {
         for (int w = 0; w < width; w++) {
             for (int h = 0; h < height; h++) {
@@ -99,7 +85,7 @@ public class Board {
     }
 
     public String getOutput(Block block) {
-        if (block.isHidden()) {
+        if (block.isHidden() && hasNotLost) {
             if (block.isFlag()) {
                 return "FF";
             } else if (block.isQuestion()) {
@@ -145,6 +131,7 @@ public class Board {
             }
         }
         if (block.isBomb()) {
+            hasNotLost = false;
             return false;
         } else {
             if (((Empty)block).getNumber() == 0) {
