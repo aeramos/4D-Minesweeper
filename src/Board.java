@@ -45,14 +45,14 @@ public class Board {
         }
     }
 
-    public int findBombNumber(int length, int width, int height, int time) {
+    private int findBombNumber(int length, int width, int height, int time) {
         int number = 0;
         for (int l = length - 1; l <= length + 1; l++) {
             for (int w = width - 1; w <= width + 1; w++) {
                 for (int h = height - 1; h <= height + 1; h++) {
                     for (int t = time - 1; t <= time + 1; t++) {
                         try {
-                            if (board[l][w][h][t].isBomb()) {
+                            if (board[l][w][h][t].getClass() == Bomb.class) {
                                 number++;
                             }
                         } catch (NullPointerException ignored) {
@@ -65,26 +65,22 @@ public class Board {
         return number;
     }
 
-    public void print3D(int time) {
-        for (int w = 0; w < width; w++) {
-            for (int h = 0; h < height; h++) {
-                for (int l = 0; l < length; l++) {
-                    System.out.print(getOutput(board[l][w][h][time]) + " ");
-                }
-                System.out.print("   ");
-            }
-            System.out.println();
-        }
-    }
-
     public void print4D() {
         for (int t = 0; t < time; t++) {
-            print3D(t);
-            System.out.print("\n\n");
+            for (int w = 0; w < width; w++) {
+                for (int h = 0; h < height; h++) {
+                    for (int l = 0; l < length; l++) {
+                        System.out.print(getOutput(board[l][w][h][t]) + " ");
+                    }
+                    System.out.print("  ");
+                }
+                System.out.println();
+            }
+            System.out.print("\n");
         }
     }
 
-    public String getOutput(Block block) {
+    private String getOutput(Block block) {
         if (block.isHidden() && hasNotLost) {
             if (block.isFlag()) {
                 return "FF";
@@ -94,7 +90,7 @@ public class Board {
                 return "XX";
             }
         } else {
-            if (block.isBomb()) {
+            if (block.getClass() == Bomb.class) {
                 return "BB";
             } else {
                 if (((Empty)block).getNumber() >= 10) {
@@ -130,7 +126,7 @@ public class Board {
                 numberFlagged--;
             }
         }
-        if (block.isBomb()) {
+        if (block.getClass() == Bomb.class) {
             hasNotLost = false;
             return false;
         } else {

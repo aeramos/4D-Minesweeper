@@ -6,11 +6,6 @@ public class Empty extends Block {
         this.number = number;
     }
 
-    @Override
-    public boolean isBomb() {
-        return false;
-    }
-
     public int getNumber() {
         return number;
     }

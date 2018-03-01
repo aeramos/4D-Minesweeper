@@ -1,4 +1,4 @@
-public abstract class Block {
+public class Block {
     private boolean hidden;
     private boolean flag;
     private boolean question;
@@ -8,8 +8,6 @@ public abstract class Block {
         flag = false;
         question = false;
     }
-
-    public abstract boolean isBomb();
 
     public boolean isHidden() {
         return hidden;

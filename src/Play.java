@@ -1,45 +1,51 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Play {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("enter length");
-        int l = scanner.nextInt();
-        System.out.println("enter width");
-        int w = scanner.nextInt();
-        System.out.println("enter height");
-        int h = scanner.nextInt();
-        System.out.println("enter time"); // 4th dimension
-        int t = scanner.nextInt();
-        int b;
-        while (true) {
-            System.out.println("enter number of bombs");
-            b = scanner.nextInt();
-            // if there are not more bombs than spaces available
-            if (b < l * w * h * t && b > 0) {
-                break;
-            } else {
-                System.out.println("Invalid number of bombs\n");
-            }
-        }
+
+        System.out.println("Welcome to 4D Minesweeper");
+        System.out.println("This game was written by Alejandro Ramos, Chris Evagora, and Bowen Li for an AP Computer Science project\n");
+
+        String setupErrorMessage = "Invalid number: Must be an integer greater than 0";
+        int l = getInt(scanner, 1, Integer.MAX_VALUE, "Length (left-right): ", setupErrorMessage);
+        int w = getInt(scanner, 1, Integer.MAX_VALUE, "Width (up-down): ", setupErrorMessage);
+        int h = getInt(scanner, 1, Integer.MAX_VALUE, "Height (cube depth): ", setupErrorMessage);
+        int t = getInt(scanner, 1, Integer.MAX_VALUE, "Time (4th dimension): ", setupErrorMessage);
+
+        int b = getInt(scanner, 1, (l * w * h * t) - 1, "Number of bombs: ", "Invalid number: Must be an integer between 1 and " + ((l * w * h * t) - 1));
         Board board = new Board(l, w, h, t, b);
         board.print4D();
+
+        boolean firstTime = true;
         while (true) {
             System.out.print("Position: ");
-            int chosenLength = scanner.nextInt();
-            int chosenWidth = scanner.nextInt();
-            int chosenHeight = scanner.nextInt();
-            int chosenTime = scanner.nextInt();
+            int chosenLength = -1, chosenWidth = -1, chosenHeight = -1, chosenTime = -1;
+            try {
+                chosenLength = scanner.nextInt();
+                chosenWidth = scanner.nextInt();
+                chosenHeight = scanner.nextInt();
+                chosenTime = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                scanner.next();
+            }
             if (board.exists(chosenLength, chosenWidth, chosenHeight, chosenTime)) {
                 Boolean gameStatus = null;
                 boolean goodInput;
                 do {
                     goodInput = true;
 
-                    System.out.print("Action (c, f, ?): ");
+                    if (firstTime) {
+                        firstTime = false;
+                        System.out.println("r = reveal");
+                        System.out.println("f = flag");
+                        System.out.println("? = question");
+                    }
+                    System.out.print("Action (r, f, ?): ");
                     String action = scanner.next();
 
-                    if (action.equals("c")) {
+                    if (action.equals("r")) {
                         gameStatus = board.reveal(chosenLength, chosenWidth, chosenHeight, chosenTime);
                     } else if (action.equals("f")) {
                         gameStatus = board.flag(chosenLength, chosenWidth, chosenHeight, chosenTime);
@@ -61,9 +67,26 @@ public class Play {
                     break;
                 }
             } else {
-                System.out.println("Invalid position\n");
+                System.out.println("Invalid position");
+                System.out.println("Length = " + l);
+                System.out.println("Width = " + w);
+                System.out.println("Height = " + h);
+                System.out.println("Time = " + t + '\n');
             }
         }
         scanner.close();
+    }
+
+    private static int getInt(Scanner scanner, int minimum, int maximum, String prompt, String error) {
+        int number = minimum - 1;
+        while (number < minimum || number > maximum) {
+            System.out.print(prompt);
+            try {
+                number = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println(error);
+            }
+        }
+        return number;
     }
 }
