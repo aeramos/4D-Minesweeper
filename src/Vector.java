@@ -1,5 +1,3 @@
-package gui;
-
 public class Vector {
     double x, y, z, length;
 

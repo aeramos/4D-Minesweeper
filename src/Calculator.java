@@ -1,5 +1,3 @@
-package gui;
-
 public class Calculator {
     public static double t = 0;
     public static Vector w1, w2, viewVector, rotationVector, directionVector, planeVector1, planeVector2;

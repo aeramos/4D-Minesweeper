@@ -2,6 +2,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Play {
+
+    public static Board board;
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -15,7 +18,8 @@ public class Play {
         int t = getInt(scanner, 1, Integer.MAX_VALUE, "Time (4th dimension): ", setupErrorMessage);
 
         int b = getInt(scanner, 1, (l * w * h * t) - 1, "Number of bombs: ", "Invalid number: Must be an integer between 1 and " + ((l * w * h * t) - 1));
-        Board board = new Board(l, w, h, t, b);
+
+        board = new Board(l, w, h, t, b);
         board.print4D();
 
         boolean firstTime = true;

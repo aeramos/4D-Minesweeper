@@ -1,10 +1,9 @@
-package gui;
-
 import java.awt.*;
 
 public class PolygonObject {
     Polygon p;
     Color c;
+
     boolean draw = true, visible = true, seeThrough;
     double lighting = 1;
 

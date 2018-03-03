@@ -1,5 +1,3 @@
-package gui;
-
 public class Plane {
     Vector v1, v2, nV;
     double[] p = new double[3];

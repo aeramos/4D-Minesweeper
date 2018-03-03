@@ -1,9 +1,7 @@
-package gui;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
+import java.awt.image.*;
 import java.util.ArrayList;
 
 public class Screen extends JPanel implements KeyListener, MouseListener, MouseMotionListener, MouseWheelListener {
@@ -47,18 +45,20 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
 
         invisibleMouse();
 
-        for (int i = 18; i < 27; i += 3) {
-            for (int j = -5; j < 4; j += 3) {
-                for (int k = 0; k < 9; k += 3) {
+        //int[] dimensions = Play.board.getLWHT();
+
+        for (int i = 18; i < 27; i += 3)
+            for (int j = -5; j < 4; j += 3)
+                for (int k = 0; k < 9; k += 3)
                     cubes.add(new Cube(i, j, k, 2, 2, 2, Color.GRAY));
-                }
-            }
-        }
+
+
+
     }
 
     public void paintComponent(Graphics g) {
         g.setColor(Color.RED.darker());
-        g.fillRect(0, 0, (int)HyperSweeper.screenSize.getWidth(), (int)HyperSweeper.screenSize.getHeight());
+        g.fillRect(0, 0, (int) HyperSweeper.screenSize.getWidth(), (int) HyperSweeper.screenSize.getHeight());
 
         controlCamera();
 
@@ -293,7 +293,7 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
     public void centerMouse() {
         try {
             r = new Robot();
-            r.mouseMove((int)HyperSweeper.screenSize.getWidth() / 2, (int)HyperSweeper.screenSize.getHeight() / 2);
+            r.mouseMove((int) HyperSweeper.screenSize.getWidth() / 2, (int) HyperSweeper.screenSize.getHeight() / 2);
         } catch (AWTException e) {
             e.printStackTrace();
         }
