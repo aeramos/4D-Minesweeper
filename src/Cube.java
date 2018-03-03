@@ -1,6 +1,7 @@
 import java.awt.*;
 
 public class Cube {
+    public int clickCount = 0;
     double x, y, z, width, length, height, rotation = Math.PI * 0.75;
     double[] rotAdd = new double[4];
     Color c;
@@ -8,7 +9,7 @@ public class Cube {
     DDDgon[] polys = new DDDgon[6];
     double[] angle;
 
-    public Cube(double x, double y, double z, double width, double length, double height, Color c) {
+    public Cube(double x, double y, double z, double width, double length, double height, Color c, int cc) {
         polys[0] = new DDDgon(new double[]{x, x + width, x + width, x}, new double[]{y, y, y + length, y + length}, new double[]{z, z, z, z}, c, false, this);
         Screen.dddgons.add(polys[0]);
         polys[1] = new DDDgon(new double[]{x, x + width, x + width, x}, new double[]{y, y, y + length, y + length}, new double[]{z + height, z + height, z + height, z + height}, c, false, this);
@@ -29,6 +30,8 @@ public class Cube {
         this.width = width;
         this.length = length;
         this.height = height;
+
+        clickCount = cc;
 
         setRotAdd();
         updatePoly();
@@ -138,10 +141,12 @@ public class Cube {
         polys[5].z = new double[]{z, z + height, z + height, z};
     }
 
-    void removeCube() {
+    public void changeColor(Color c) {
         for (int i = 0; i < 6; i++) {
             Screen.dddgons.remove(polys[i]);
         }
+        int prevIndex = Screen.cubes.indexOf(this);
         Screen.cubes.remove(this);
+        Screen.cubes.add(prevIndex, new Cube(x, y, z, width, length, height, c, clickCount + 1));
     }
 }

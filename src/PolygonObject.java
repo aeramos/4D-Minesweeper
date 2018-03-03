@@ -17,7 +17,7 @@ public class PolygonObject {
         associatedCube = associated;
     }
 
-    public Cube getAssociatedCube(){
+    public Cube getAssociatedCube() {
         return associatedCube;
     }
 
