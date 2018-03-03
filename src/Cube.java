@@ -9,17 +9,17 @@ public class Cube {
     double[] angle;
 
     public Cube(double x, double y, double z, double width, double length, double height, Color c) {
-        polys[0] = new DDDgon(new double[]{x, x + width, x + width, x}, new double[]{y, y, y + length, y + length}, new double[]{z, z, z, z}, c, false);
+        polys[0] = new DDDgon(new double[]{x, x + width, x + width, x}, new double[]{y, y, y + length, y + length}, new double[]{z, z, z, z}, c, false, this);
         Screen.dddgons.add(polys[0]);
-        polys[1] = new DDDgon(new double[]{x, x + width, x + width, x}, new double[]{y, y, y + length, y + length}, new double[]{z + height, z + height, z + height, z + height}, c, false);
+        polys[1] = new DDDgon(new double[]{x, x + width, x + width, x}, new double[]{y, y, y + length, y + length}, new double[]{z + height, z + height, z + height, z + height}, c, false, this);
         Screen.dddgons.add(polys[1]);
-        polys[2] = new DDDgon(new double[]{x, x, x + width, x + width}, new double[]{y, y, y, y}, new double[]{z, z + height, z + height, z}, c, false);
+        polys[2] = new DDDgon(new double[]{x, x, x + width, x + width}, new double[]{y, y, y, y}, new double[]{z, z + height, z + height, z}, c, false, this);
         Screen.dddgons.add(polys[2]);
-        polys[3] = new DDDgon(new double[]{x + width, x + width, x + width, x + width}, new double[]{y, y, y + length, y + length}, new double[]{z, z + height, z + height, z}, c, false);
+        polys[3] = new DDDgon(new double[]{x + width, x + width, x + width, x + width}, new double[]{y, y, y + length, y + length}, new double[]{z, z + height, z + height, z}, c, false, this);
         Screen.dddgons.add(polys[3]);
-        polys[4] = new DDDgon(new double[]{x, x, x + width, x + width}, new double[]{y + length, y + length, y + length, y + length}, new double[]{z, z + height, z + height, z}, c, false);
+        polys[4] = new DDDgon(new double[]{x, x, x + width, x + width}, new double[]{y + length, y + length, y + length, y + length}, new double[]{z, z + height, z + height, z}, c, false, this);
         Screen.dddgons.add(polys[4]);
-        polys[5] = new DDDgon(new double[]{x, x, x, x}, new double[]{y, y, y + length, y + length}, new double[]{z, z + height, z + height, z}, c, false);
+        polys[5] = new DDDgon(new double[]{x, x, x, x}, new double[]{y, y, y + length, y + length}, new double[]{z, z + height, z + height, z}, c, false, this);
         Screen.dddgons.add(polys[5]);
 
         this.c = c;

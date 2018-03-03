@@ -332,9 +332,10 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
         }
 
         if (e.getButton() == MouseEvent.BUTTON3) {
-            if (selectedPolygon != null) {
+            /*if (selectedPolygon != null) {
                 selectedPolygon.seeThrough = true;
-            }
+            }*/
+            selectedPolygon.getAssociatedCube().removeCube();
         }
     }
 

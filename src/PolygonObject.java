@@ -3,17 +3,22 @@ import java.awt.*;
 public class PolygonObject {
     Polygon p;
     Color c;
-
+    Cube associatedCube;
     boolean draw = true, visible = true, seeThrough;
     double lighting = 1;
 
-    public PolygonObject(double[] x, double[] y, Color color, int n, boolean sT) {
+    public PolygonObject(double[] x, double[] y, Color color, int n, boolean sT, Cube associated) {
         p = new Polygon();
         for (int i = 0; i < x.length; i++) {
             p.addPoint((int)x[i], (int)y[i]);
         }
         c = color;
         seeThrough = sT;
+        associatedCube = associated;
+    }
+
+    public Cube getAssociatedCube(){
+        return associatedCube;
     }
 
     public void updatePolygon(double[] x, double[] y) {

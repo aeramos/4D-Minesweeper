@@ -2,23 +2,25 @@ import java.awt.*;
 
 public class DDDgon {
     Color c;
+    Cube associatedCube;
     double[] x, y, z;
     boolean draw = true, transparent;
     double[] calcPos, nX, nY;
     PolygonObject drawable;
     double avgDist;
 
-    public DDDgon(double[] xSet, double[] ySet, double[] zSet, Color color, boolean t) {
+    public DDDgon(double[] xSet, double[] ySet, double[] zSet, Color color, boolean t, Cube associated) {
         transparent = t;
         c = color;
         x = xSet;
         y = ySet;
         z = zSet;
+        associatedCube = associated;
         createPolygon();
     }
 
     public void createPolygon() {
-        drawable = new PolygonObject(new double[x.length], new double[x.length], c, Screen.dddgons.size(), transparent);
+        drawable = new PolygonObject(new double[x.length], new double[x.length], c, Screen.dddgons.size(), transparent, associatedCube);
     }
 
     public void updatePolygon() {
