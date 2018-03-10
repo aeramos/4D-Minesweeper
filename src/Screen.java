@@ -62,14 +62,16 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     public void jumpToFrame(int f){
-        int index = 0;
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                for (int k = 0; k < z; k++) {
-                    Block testBlock = HyperSweeper.hyperBoard.board[i][j][k][f];
-                    cubes.get(index).remove();
-                    cubes.add(index , new Cube(i*3+18, j*3-5, k*3, 2, 2, 2, testBlock.isFlag()?Color.red:testBlock.isQuestion()?Color.yellow:Color.gray, testBlock.isFlag()?1:testBlock.isQuestion()?2:0,!testBlock.isHidden(),i,j,k));
-                    index++;
+        if(HyperSweeper.win == null) {
+            int index = 0;
+            for (int i = 0; i < x; i++) {
+                for (int j = 0; j < y; j++) {
+                    for (int k = 0; k < z; k++) {
+                        Block testBlock = HyperSweeper.hyperBoard.board[i][j][k][f];
+                        cubes.get(index).remove();
+                        cubes.add(index, new Cube(i * 3 + 18, j * 3 - 5, k * 3, 2, 2, 2, testBlock.isFlag() ? Color.red : testBlock.isQuestion() ? Color.yellow : Color.gray, testBlock.isFlag() ? 1 : testBlock.isQuestion() ? 2 : 0, !testBlock.isHidden(), i, j, k));
+                        index++;
+                    }
                 }
             }
         }
@@ -358,22 +360,61 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (selectedPolygon != null) {
-                selectedPolygon.seeThrough = false;
+                Cube temp = selectedPolygon.getAssociatedCube();
+                if(HyperSweeper.hyperBoard.reveal(temp.relativeCoords[0],temp.relativeCoords[1],temp.relativeCoords[2],CurrentFrame) == null){
+                    jumpToFrame(CurrentFrame);
+                }
+                /*
+                else if(HyperSweeper.hyperBoard.reveal(temp.relativeCoords[0],temp.relativeCoords[1],temp.relativeCoords[2],CurrentFrame)){
+                    HyperSweeper.win = true;
+
+                    int index = 0;
+                    for (int i = 0; i < x; i++) {
+                        for (int j = 0; j < y; j++) {
+                            for (int k = 0; k < z; k++) {
+                                HyperSweeper.hyperBoard.board[i][j][k][CurrentFrame].setHidden(false);
+                                cubes.get(index).remove();
+                                cubes.add(index , new Cube(i*3+18, j*3-5, k*3, 2, 2, 2, Color.GREEN, 0,false,i,j,k));
+                                index++;
+                            }
+                        }
+                    }
+
+                    System.out.println("You Win!");
+                }
+                else{
+                    HyperSweeper.win = false;
+
+                    int index = 0;
+                    for (int i = 0; i < x; i++) {
+                        for (int j = 0; j < y; j++) {
+                            for (int k = 0; k < z; k++) {
+                                HyperSweeper.hyperBoard.board[i][j][k][CurrentFrame].setHidden(false);
+                                cubes.get(index).remove();
+                                cubes.add(index , new Cube(i*3+18, j*3-5, k*3, 2, 2, 2, Color.RED, 0,false,i,j,k));
+                                index++;
+                            }
+                        }
+                    }
+
+                    System.out.println("You Suck!");
+                }
+                */
             }
         }
 
         if (e.getButton() == MouseEvent.BUTTON3) {
             Cube temp = selectedPolygon.getAssociatedCube();
             if (selectedPolygon.getAssociatedCube().clickCount % 3 == 0) {
-                HyperSweeper.hyperBoard.board[temp.relativeCoords[0]][temp.relativeCoords[1]][temp.relativeCoords[2]][CurrentFrame].setFlag(true);
+                HyperSweeper.hyperBoard.flag(temp.relativeCoords[0],temp.relativeCoords[1],temp.relativeCoords[2],CurrentFrame);
                 selectedPolygon.getAssociatedCube().changeColor(Color.RED);
             }
             if (selectedPolygon.getAssociatedCube().clickCount % 3 == 1) {
-                HyperSweeper.hyperBoard.board[temp.relativeCoords[0]][temp.relativeCoords[1]][temp.relativeCoords[2]][CurrentFrame].setQuestion(true);
+                HyperSweeper.hyperBoard.question(temp.relativeCoords[0],temp.relativeCoords[1],temp.relativeCoords[2],CurrentFrame);
                 selectedPolygon.getAssociatedCube().changeColor(Color.YELLOW);
             }
             if (selectedPolygon.getAssociatedCube().clickCount % 3 == 2) {
-                HyperSweeper.hyperBoard.board[temp.relativeCoords[0]][temp.relativeCoords[1]][temp.relativeCoords[2]][CurrentFrame].setQuestion(false);
+                HyperSweeper.hyperBoard.question(temp.relativeCoords[0],temp.relativeCoords[1],temp.relativeCoords[2],CurrentFrame);
                 selectedPolygon.getAssociatedCube().changeColor(Color.GRAY);
             }
         }

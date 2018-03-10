@@ -5,6 +5,7 @@ public class HyperSweeper {
     public static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public static int length, width, height, time, bombs;
     public static Board hyperBoard;
+    public static Boolean win;
 
     public static void main(String[] args) {
         length = Play.sizes[0];
