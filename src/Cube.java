@@ -8,8 +8,9 @@ public class Cube {
     double x1, x2, x3, x4, y1, y2, y3, y4;
     DDDgon[] polys = new DDDgon[6];
     double[] angle;
+    int[] relativeCoords = new int[3];
 
-    public Cube(double x, double y, double z, double width, double length, double height, Color c, int cc, boolean transparent) {
+    public Cube(double x, double y, double z, double width, double length, double height, Color c, int cc, boolean transparent, int i, int j, int k) {
         polys[0] = new DDDgon(new double[]{x, x + width, x + width, x}, new double[]{y, y, y + length, y + length}, new double[]{z, z, z, z}, c, transparent, this);
         Screen.dddgons.add(polys[0]);
         polys[1] = new DDDgon(new double[]{x, x + width, x + width, x}, new double[]{y, y, y + length, y + length}, new double[]{z + height, z + height, z + height, z + height}, c, transparent, this);
@@ -22,6 +23,10 @@ public class Cube {
         Screen.dddgons.add(polys[4]);
         polys[5] = new DDDgon(new double[]{x, x, x, x}, new double[]{y, y, y + length, y + length}, new double[]{z, z + height, z + height, z}, c, transparent, this);
         Screen.dddgons.add(polys[5]);
+
+        relativeCoords[0] = i;
+        relativeCoords[1] = j;
+        relativeCoords[2] = k;
 
         this.c = c;
         this.x = x;
@@ -144,7 +149,7 @@ public class Cube {
     public void changeColor(Color c) {
         int prevIndex = Screen.cubes.indexOf(this);
         remove();
-        Screen.cubes.add(prevIndex, new Cube(x, y, z, width, length, height, c, clickCount + 1, false));
+        Screen.cubes.add(prevIndex, new Cube(x, y, z, width, length, height, c, clickCount + 1, false, relativeCoords[0], relativeCoords[1], relativeCoords[2]));
     }
 
     public void remove(){
