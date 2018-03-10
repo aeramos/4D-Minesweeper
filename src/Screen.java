@@ -68,7 +68,7 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
                 for (int k = 0; k < z; k++) {
                     Block testBlock = HyperSweeper.hyperBoard.board[i][j][k][f];
                     cubes.get(index).remove();
-                    cubes.add(index , new Cube(i * 3 + 18, j * 3 - 5, k * 3, 2, 2, 2, Color.GRAY, testBlock.isFlag()?1:testBlock.isQuestion()?2:0,testBlock.isHidden()));
+                    cubes.add(index , new Cube(i * 3 + 18, j * 3 - 5, k * 3, 2, 2, 2, testBlock.isFlag()?Color.red:testBlock.isQuestion()?Color.yellow:Color.gray, testBlock.isFlag()?1:testBlock.isQuestion()?2:0,!testBlock.isHidden()));
                     index++;
                 }
             }
@@ -76,7 +76,7 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     public void paintComponent(Graphics g) {
-        g.setColor(Color.RED.darker());
+        g.setColor(Color.blue.lightGray);
         g.fillRect(0, 0, (int)HyperSweeper.screenSize.getWidth(), (int)HyperSweeper.screenSize.getHeight());
 
         controlCamera();
@@ -363,11 +363,13 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
         }
 
         if (e.getButton() == MouseEvent.BUTTON3) {
+            Cube temp = selectedPolygon.getAssociatedCube();
             if (selectedPolygon.getAssociatedCube().clickCount % 3 == 0) {
-                selectedPolygon.getAssociatedCube().changeColor(Color.ORANGE);
+                //HyperSweeper.hyperBoard.board[(temp.x-18)/3 , (temp.y+5)/3, (temp.z/3)];
+                selectedPolygon.getAssociatedCube().changeColor(Color.RED);
             }
             if (selectedPolygon.getAssociatedCube().clickCount % 3 == 1) {
-                selectedPolygon.getAssociatedCube().changeColor(Color.BLUE);
+                selectedPolygon.getAssociatedCube().changeColor(Color.YELLOW);
             }
             if (selectedPolygon.getAssociatedCube().clickCount % 3 == 2) {
                 selectedPolygon.getAssociatedCube().changeColor(Color.GRAY);
