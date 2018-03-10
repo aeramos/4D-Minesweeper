@@ -142,11 +142,14 @@ public class Cube {
     }
 
     public void changeColor(Color c) {
-        for (int i = 0; i < 6; i++) {
-            Screen.dddgons.remove(polys[i]);
-        }
         int prevIndex = Screen.cubes.indexOf(this);
-        Screen.cubes.remove(this);
+        remove();
         Screen.cubes.add(prevIndex, new Cube(x, y, z, width, length, height, c, clickCount + 1, false));
+    }
+
+    public void remove(){
+        for (int i = 0; i < 6; i++)
+            Screen.dddgons.remove(polys[i]);
+        Screen.cubes.remove(this);
     }
 }

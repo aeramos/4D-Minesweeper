@@ -67,7 +67,7 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
             for (int j = 0; j < y; j++) {
                 for (int k = 0; k < z; k++) {
                     Block testBlock = HyperSweeper.hyperBoard.board[i][j][k][f];
-                    cubes.get(index);
+                    cubes.get(index).remove();
                     cubes.add(index , new Cube(i * 3 + 18, j * 3 - 5, k * 3, 2, 2, 2, Color.GRAY, testBlock.isFlag()?1:testBlock.isQuestion()?2:0,testBlock.isHidden()));
                     index++;
                 }
@@ -289,12 +289,6 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
         }
         if (e.getKeyCode() == KeyEvent.VK_D) {
             cues[3] = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_UP) {
-            cues[4] = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-            cues[5] = false;
         }
     }
 
