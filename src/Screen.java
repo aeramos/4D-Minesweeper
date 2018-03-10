@@ -17,7 +17,7 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
             maxZoom = 2500,
             mouseX = 0,
             mouseY = 0,
-            movementSpeed = 0.05,
+            movementSpeed = 0.1,
             drawFPS = 0,
             MaxFPS = 1000,
             SleepTime = 1000.0 / MaxFPS,
@@ -28,6 +28,7 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
     public static double[] viewFrom = {15, 5, 10},
             viewTo = {0, 0, 0},
             light = {1, 1, 1};
+    public static int x,y,z,TotalFrames,CurrentFrame;
     public static int[] newOrder;
     public static boolean[] cues = new boolean[4];
     public static ArrayList<DDDgon> dddgons = new ArrayList<DDDgon>();
@@ -35,7 +36,7 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
     public static PolygonObject selectedPolygon = null;
     public static Robot r;
 
-    public Screen() {
+    public Screen(int x, int y, int z, int t) {
         this.addKeyListener(this);
         setFocusable(true);
 
@@ -45,10 +46,30 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
 
         invisibleMouse();
 
-        for (int i = 18; i < 27; i += 3) {
-            for (int j = -5; j < 4; j += 3) {
-                for (int k = 0; k < 9; k += 3) {
-                    cubes.add(new Cube(i, j, k, 2, 2, 2, Color.GRAY, 0));
+        TotalFrames = t;
+        CurrentFrame = 0;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+
+        for (int i = 18; i < x * 3 + 18; i += 3) {
+            for (int j = -5; j < y * 3 - 5; j += 3) {
+                for (int k = 0; k < z * 3; k += 3) {
+                    cubes.add(new Cube(i, j, k, 2, 2, 2, Color.GRAY, 0, false));
+                }
+            }
+        }
+    }
+
+    public void jumpToFrame(int f){
+        int index = 0;
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                for (int k = 0; k < z; k++) {
+                    Block testBlock = HyperSweeper.hyperBoard.board[i][j][k][f];
+                    cubes.remove(index);
+                    cubes.add(index , new Cube(i * 3 + 18, j * 3 - 5, k * 3, 2, 2, 2, Color.GRAY, testBlock.isFlag()?1:testBlock.isQuestion()?2:0,testBlock.isHidden()));
+                    index++;
                 }
             }
         }
@@ -235,6 +256,18 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
         if (e.getKeyCode() == KeyEvent.VK_D) {
             cues[3] = true;
         }
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+            if(CurrentFrame < TotalFrames){
+                CurrentFrame++;
+                jumpToFrame(CurrentFrame);
+            }
+        }
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            if(CurrentFrame > 0){
+                CurrentFrame--;
+                jumpToFrame(CurrentFrame);
+            }
+        }
         if (e.getKeyCode() == KeyEvent.VK_O) {
             outlines = !outlines;
         }
@@ -256,6 +289,12 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
         }
         if (e.getKeyCode() == KeyEvent.VK_D) {
             cues[3] = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
+            cues[4] = false;
+        }
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            cues[5] = false;
         }
     }
 

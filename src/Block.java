@@ -1,4 +1,4 @@
-public class Block {
+public class Block{
     private boolean hidden;
     private boolean flag;
     private boolean question;

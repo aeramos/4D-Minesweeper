@@ -3,7 +3,7 @@ public class Board {
     private int width;
     private int height;
     private int time;
-    private Block[][][][] board;
+    public Block[][][][] board;
     private int numberBombs;
     private int numberHidden;
     private int numberFlagged;
