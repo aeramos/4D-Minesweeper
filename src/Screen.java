@@ -52,13 +52,14 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
         this.y = y;
         this.z = z;
 
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                for (int k = 0; k < z; k++) {
-                    cubes.add(new Cube(i*3+18, j*3-5, k*3, 2, 2, 2, Color.GRAY, 0, false, i, j, k));
-                }
-            }
-        }
+        for (int i = 0; i < x; i++)
+            for (int j = 0; j < y; j++)
+                for (int k = 0; k < z; k++)
+                    cubes.add(new Cube(i*3+18, j*3-5, k*3, 2, 2, 2, Color.GRAY, 0, false, i, j, k, true));
+
+
+        for(int i = 0; i < cubes.size(); i++)
+            System.out.println(i + 1 + ": " + cubes.get(i).x + ", " + cubes.get(i).y + ", " + cubes.get(i).z);
     }
 
     public void jumpToFrame(int f){
@@ -69,7 +70,7 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
                     for (int k = 0; k < z; k++) {
                         Block testBlock = HyperSweeper.hyperBoard.board[i][j][k][f];
                         cubes.get(index).remove();
-                        cubes.add(index, new Cube(i * 3 + 18, j * 3 - 5, k * 3, 2, 2, 2, testBlock.isFlag() ? Color.red : testBlock.isQuestion() ? Color.yellow : Color.gray, testBlock.isFlag() ? 1 : testBlock.isQuestion() ? 2 : 0, !testBlock.isHidden(), i, j, k));
+                        cubes.add(index, new Cube(i * 3 + 18, j * 3 - 5, k * 3, 2, 2, 2, testBlock.isFlag() ? Color.red : testBlock.isQuestion() ? Color.yellow : Color.gray, testBlock.isFlag() ? 1 : testBlock.isQuestion() ? 2 : 0, !testBlock.isHidden(), i, j, k, testBlock.getClass() == Bomb.class));
                         index++;
                     }
                 }
@@ -122,7 +123,8 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
         for (int i = newOrder.length - 1; i >= 0; i--) {
             if (dddgons.get(newOrder[i]).drawable.mouseOver() &&
                     dddgons.get(newOrder[i]).draw &&
-                    dddgons.get(newOrder[i]).drawable.visible) {
+                    dddgons.get(newOrder[i]).drawable.visible &&
+                    !dddgons.get(newOrder[i]).associatedCube.seeThru) {
 
                 selectedPolygon = dddgons.get(newOrder[i]).drawable;
                 break;

@@ -45,9 +45,6 @@ public class Board {
         }
     }
 
-    public int[] getLWHT(){
-        return new int[]{length, width, height, time};
-    }
 
     private int findBombNumber(int length, int width, int height, int time) {
         int number = 0;

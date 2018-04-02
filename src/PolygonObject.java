@@ -33,15 +33,11 @@ public class PolygonObject {
     public void draw(Graphics g) {
         if (draw && visible) {
             g.setColor(new Color((int)(c.getRed() * lighting), (int)(c.getGreen() * lighting), (int)(c.getBlue() * lighting)));
-            if (seeThrough) {
-                g.drawPolygon(p);
-            } else {
+            if (!seeThrough)
                 g.fillPolygon(p);
-            }
-            if (Screen.outlines) {
+            if (Screen.outlines)
                 g.setColor(new Color(0, 0, 0));
-                g.drawPolygon(p);
-            }
+
 
             if (Screen.selectedPolygon == this) {
                 g.setColor(new Color(255, 255, 255, 100));
