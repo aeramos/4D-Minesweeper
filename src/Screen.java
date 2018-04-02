@@ -361,7 +361,7 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
     @Override
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
-            if (selectedPolygon != null) {
+            if (selectedPolygon != null && selectedPolygon.getAssociatedCube().c != Color.red) {
                 Cube temp = selectedPolygon.getAssociatedCube();
                 if(HyperSweeper.hyperBoard.reveal(temp.relativeCoords[0],temp.relativeCoords[1],temp.relativeCoords[2],CurrentFrame) == null){
                     jumpToFrame(CurrentFrame);
