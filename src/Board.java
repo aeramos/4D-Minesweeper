@@ -45,6 +45,9 @@ public class Board {
         }
     }
 
+    public int getBombs(){
+        return numberBombs;
+    }
 
     private int findBombNumber(int length, int width, int height, int time) {
         int number = 0;

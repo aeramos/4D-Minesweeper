@@ -57,7 +57,6 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
                 for (int k = 0; k < z; k++)
                     cubes.add(new Cube(i*3+18, j*3-5, k*3, 2, 2, 2, Color.GRAY, 0, false, i, j, k, true));
 
-
         for(int i = 0; i < cubes.size(); i++)
             System.out.println(i + 1 + ": " + cubes.get(i).x + ", " + cubes.get(i).y + ", " + cubes.get(i).z);
     }
@@ -101,6 +100,10 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
         }
 
         drawReticle(g);
+
+        g.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
+        g.drawString("Current Hyper State: " + (CurrentFrame+1),10,35);
+        g.drawString("Number of bombs: " + (HyperSweeper.hyperBoard.getBombs()),10,HyperSweeper.screenSize.height-10);
 
         sleepRefresh();
     }
