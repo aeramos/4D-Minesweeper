@@ -117,7 +117,7 @@ public class Board {
     // returns true if player wins, false if player loses, null otherwise
     public Boolean reveal(int length, int width, int height, int time) {
         Block block = board[length][width][height][time];
-        if (!block.isHidden()) {
+        if (!block.isHidden() || block.isFlag()) {
             return null;
         } else {
             block.setQuestion(false);
@@ -125,10 +125,6 @@ public class Board {
             block.setHidden(false);
             numberHidden--;
 
-            if (block.isFlag()) {
-                block.setFlag(false);
-                numberFlagged--;
-            }
         }
         if (block.getClass() == Bomb.class) {
             hasNotLost = false;
@@ -154,11 +150,15 @@ public class Board {
                 }
             }
         }
-        if (numberHidden == numberBombs && numberFlagged == numberBombs) {
+        if (numberHidden == numberBombs) {
             return true;
         } else {
             return null;
         }
+    }
+
+    public int getNumberHidden(){
+        return numberHidden;
     }
 
     public Boolean flag(int length, int width, int height, int time) {

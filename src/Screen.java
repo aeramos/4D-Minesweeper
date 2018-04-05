@@ -30,7 +30,7 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
             light = {1, 1, 1};
     public static int x,y,z,TotalFrames,CurrentFrame;
     public static int[] newOrder;
-    public static boolean[] cues = new boolean[4];
+    public static boolean[] cues = new boolean[6];
     public static ArrayList<DDDgon> dddgons = new ArrayList<DDDgon>();
     public static ArrayList<Cube> cubes = new ArrayList<Cube>();
     public static PolygonObject selectedPolygon = null;
@@ -60,8 +60,8 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
                 for (int k = 0; k < z; k++)
                     cubes.add(new Cube(i*3+18, j*3-5, k*3, 2, 2, 2, Color.GRAY, 0, false, i, j, k, true));
 
-        for(int i = 0; i < cubes.size(); i++)
-            System.out.println(i + 1 + ": " + cubes.get(i).x + ", " + cubes.get(i).y + ", " + cubes.get(i).z);
+
+
     }
 
     public void jumpToFrame(int f){
@@ -85,8 +85,9 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
         g.fillRect(0, 0, (int)HyperSweeper.screenSize.getWidth(), (int)HyperSweeper.screenSize.getHeight());
 
         controlCamera();
-
         Calculator.setPredeterminedInfo();
+
+
 
         controlSunAndLight();
 
@@ -105,30 +106,38 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
         drawReticle(g);
 
         g.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-        g.drawString("Frame " + (CurrentFrame+1),10,35);
+        g.drawString("Frame " + (CurrentFrame + 1),10,35);
         g.drawString((HyperSweeper.hyperBoard.getBombs()) + " bombs",10,HyperSweeper.screenSize.height-10);
+        g.drawString((int)viewFrom[0] + ", " + (int)viewFrom[1] + ", " + (int)viewFrom[2], 10, 65);
 
-        if(HyperSweeper.win != null && !HyperSweeper.win) {
-            if(twinkleCount == 75) {
-                twinkleState = !twinkleState;
-                int index = 0;
-                for (int i = 0; i < x; i++) {
-                    for (int j = 0; j < y; j++) {
-                        for (int k = 0; k < z; k++) {
-                            if(HyperSweeper.hyperBoard.board[i][j][k][CurrentFrame] instanceof Bomb) {
-                                cubes.get(index).remove();
-                                cubes.add(index, new Cube(i * 3 + 18, j * 3 - 5, k * 3, 2, 2, 2, Math.random() > .75 ? Color.ORANGE : index % 2 == (twinkleState ? 1 : 0) ? Color.RED : Color.YELLOW, 0, true, i, j, k, true));
+        if(HyperSweeper.win != null) {
+            if (!HyperSweeper.win) {
+                if (twinkleCount == 75) {
+                    twinkleState = !twinkleState;
+                    int index = 0;
+                    for (int i = 0; i < x; i++) {
+                        for (int j = 0; j < y; j++) {
+                            for (int k = 0; k < z; k++) {
+                                if (HyperSweeper.hyperBoard.board[i][j][k][CurrentFrame] instanceof Bomb) {
+                                    cubes.get(index).remove();
+                                    cubes.add(index, new Cube(i * 3 + 18, j * 3 - 5, k * 3, 2, 2, 2, Math.random() > .75 ? Color.ORANGE : index % 2 == (twinkleState ? 1 : 0) ? Color.RED : Color.YELLOW, 0, true, i, j, k, true));
+                                }
+                                index++;
                             }
-                            index++;
                         }
                     }
+                    twinkleCount = 0;
+                } else {
+                    twinkleCount++;
                 }
-                twinkleCount = 0;
-            }
-            else{
-                twinkleCount++;
+                g.setFont(new Font("Comic Sans MS", Font.BOLD, 150));
+                g.drawString("Boom, you lost!", HyperSweeper.screenSize.width / 2 - 500, HyperSweeper.screenSize.height / 2);
+            }else{
+                g.setFont(new Font("Comic Sans MS", Font.BOLD, 100));
+                g.drawString("Congratulations, you won!",HyperSweeper.screenSize.width / 2 - 600,HyperSweeper.screenSize.height / 2);
             }
         }
+
 
         sleepRefresh();
     }
@@ -152,7 +161,7 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
             if (dddgons.get(newOrder[i]).drawable.mouseOver() &&
                     dddgons.get(newOrder[i]).draw &&
                     dddgons.get(newOrder[i]).drawable.visible &&
-                    !dddgons.get(newOrder[i]).associatedCube.seeThru) {
+                    dddgons.get(newOrder[i]).associatedCube == null ? false : !dddgons.get(newOrder[i]).associatedCube.seeThru) {
 
                 selectedPolygon = dddgons.get(newOrder[i]).drawable;
                 break;
@@ -265,6 +274,10 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
             yMove -= sideView.y;
             zMove -= sideView.z;
         }
+        if (cues[4])
+            zMove += 1;
+        if (cues[5])
+            zMove -= 1;
 
         Vector moveVector = new Vector(xMove, yMove, zMove);
         moveTo(viewFrom[0] + moveVector.x * movementSpeed, viewFrom[1] + moveVector.y * movementSpeed, viewFrom[2] + moveVector.z * movementSpeed);
@@ -276,18 +289,18 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_W) {
+        if (e.getKeyCode() == KeyEvent.VK_W)
             cues[0] = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_A) {
+        if (e.getKeyCode() == KeyEvent.VK_A)
             cues[1] = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_S) {
+        if (e.getKeyCode() == KeyEvent.VK_S)
             cues[2] = true;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_D) {
+        if (e.getKeyCode() == KeyEvent.VK_D)
             cues[3] = true;
-        }
+        if (e.getKeyCode() == KeyEvent.VK_SPACE)
+            cues[4] = true;
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT)
+            cues[5] = true;
         if (e.getKeyCode() == KeyEvent.VK_UP) {
             if(CurrentFrame < TotalFrames-1){
                 CurrentFrame++;
@@ -300,28 +313,26 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
                 jumpToFrame(CurrentFrame);
             }
         }
-        if (e.getKeyCode() == KeyEvent.VK_O) {
+        if (e.getKeyCode() == KeyEvent.VK_O)
             outlines = !outlines;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
             System.exit(0);
-        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_W) {
+        if (e.getKeyCode() == KeyEvent.VK_W)
             cues[0] = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_A) {
+        if (e.getKeyCode() == KeyEvent.VK_A)
             cues[1] = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_S) {
+        if (e.getKeyCode() == KeyEvent.VK_S)
             cues[2] = false;
-        }
-        if (e.getKeyCode() == KeyEvent.VK_D) {
+        if (e.getKeyCode() == KeyEvent.VK_D)
             cues[3] = false;
-        }
+        if (e.getKeyCode() == KeyEvent.VK_SPACE)
+            cues[4] = false;
+        if (e.getKeyCode() == KeyEvent.VK_SHIFT)
+            cues[5] = false;
     }
 
     @Override
@@ -423,7 +434,6 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
                         }
                     }
 
-                    System.out.println("\n\nYou Suck!");
                     jumpToFrame(CurrentFrame);
                 }
             }
