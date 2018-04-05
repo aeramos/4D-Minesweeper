@@ -35,6 +35,9 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
     public static ArrayList<Cube> cubes = new ArrayList<Cube>();
     public static PolygonObject selectedPolygon = null;
     public static Robot r;
+    public static int twinkleCount = 0;
+    public static boolean twinkleState = true;
+    public static double sunSpeed = .005;
 
     public Screen(int x, int y, int z, int t) {
         this.addKeyListener(this);
@@ -62,16 +65,16 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     public void jumpToFrame(int f){
-        if(HyperSweeper.win == null) {
-            int index = 0;
-            for (int i = 0; i < x; i++) {
-                for (int j = 0; j < y; j++) {
-                    for (int k = 0; k < z; k++) {
+        int index = 0;
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                for (int k = 0; k < z; k++) {
+                    if(HyperSweeper.win == null || HyperSweeper.win != null && !(HyperSweeper.hyperBoard.board[i][j][k][CurrentFrame] instanceof Bomb)) {
                         Block testBlock = HyperSweeper.hyperBoard.board[i][j][k][f];
                         cubes.get(index).remove();
                         cubes.add(index, new Cube(i * 3 + 18, j * 3 - 5, k * 3, 2, 2, 2, testBlock.isFlag() ? Color.red : testBlock.isQuestion() ? Color.yellow : Color.gray, testBlock.isFlag() ? 1 : testBlock.isQuestion() ? 2 : 0, !testBlock.isHidden(), i, j, k, testBlock.getClass() == Bomb.class));
-                        index++;
                     }
+                    index++;
                 }
             }
         }
@@ -102,8 +105,30 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
         drawReticle(g);
 
         g.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-        g.drawString("Current Hyper State: " + (CurrentFrame+1),10,35);
-        g.drawString("Number of bombs: " + (HyperSweeper.hyperBoard.getBombs()),10,HyperSweeper.screenSize.height-10);
+        g.drawString("Frame " + (CurrentFrame+1),10,35);
+        g.drawString((HyperSweeper.hyperBoard.getBombs()) + " bombs",10,HyperSweeper.screenSize.height-10);
+
+        if(HyperSweeper.win != null && !HyperSweeper.win) {
+            if(twinkleCount == 75) {
+                twinkleState = !twinkleState;
+                int index = 0;
+                for (int i = 0; i < x; i++) {
+                    for (int j = 0; j < y; j++) {
+                        for (int k = 0; k < z; k++) {
+                            if(HyperSweeper.hyperBoard.board[i][j][k][CurrentFrame] instanceof Bomb) {
+                                cubes.get(index).remove();
+                                cubes.add(index, new Cube(i * 3 + 18, j * 3 - 5, k * 3, 2, 2, 2, Math.random() > .75 ? Color.ORANGE : index % 2 == (twinkleState ? 1 : 0) ? Color.RED : Color.YELLOW, 0, true, i, j, k, true));
+                            }
+                            index++;
+                        }
+                    }
+                }
+                twinkleCount = 0;
+            }
+            else{
+                twinkleCount++;
+            }
+        }
 
         sleepRefresh();
     }
@@ -136,7 +161,7 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     public void controlSunAndLight() {
-        sunPos += 0.005;
+        sunPos += sunSpeed;
         double mapSize = 50 * 2;
         light[0] = mapSize / 2 - (mapSize / 2 + Math.cos(sunPos) * mapSize * 10);
         light[1] = mapSize / 2 - (mapSize / 2 + Math.sin(sunPos) * mapSize * 10);
@@ -363,52 +388,48 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
+        if (e.getButton() == MouseEvent.BUTTON1 && HyperSweeper.win == null) {
             if (selectedPolygon != null && selectedPolygon.getAssociatedCube().c != Color.red) {
                 Cube temp = selectedPolygon.getAssociatedCube();
-                if(HyperSweeper.hyperBoard.reveal(temp.relativeCoords[0],temp.relativeCoords[1],temp.relativeCoords[2],CurrentFrame) == null){
+                Boolean gameStatus = HyperSweeper.hyperBoard.reveal(temp.relativeCoords[0],temp.relativeCoords[1],temp.relativeCoords[2],CurrentFrame);
+                if(gameStatus == null) {
                     jumpToFrame(CurrentFrame);
                 }
-                /*
-                else if(HyperSweeper.hyperBoard.reveal(temp.relativeCoords[0],temp.relativeCoords[1],temp.relativeCoords[2],CurrentFrame)){
+                else if(gameStatus){
                     HyperSweeper.win = true;
 
                     int index = 0;
                     for (int i = 0; i < x; i++) {
                         for (int j = 0; j < y; j++) {
                             for (int k = 0; k < z; k++) {
-                                HyperSweeper.hyperBoard.board[i][j][k][CurrentFrame].setHidden(false);
                                 cubes.get(index).remove();
-                                cubes.add(index , new Cube(i*3+18, j*3-5, k*3, 2, 2, 2, Color.GREEN, 0,false,i,j,k));
+                                cubes.add(index , new Cube(i*3+18, j*3-5, k*3, 2, 2, 2, Color.GREEN, 0,false,i,j,k,false));
                                 index++;
                             }
                         }
                     }
 
                     System.out.println("You Win!");
+                    jumpToFrame(CurrentFrame);
                 }
                 else{
                     HyperSweeper.win = false;
-
-                    int index = 0;
                     for (int i = 0; i < x; i++) {
                         for (int j = 0; j < y; j++) {
                             for (int k = 0; k < z; k++) {
-                                HyperSweeper.hyperBoard.board[i][j][k][CurrentFrame].setHidden(false);
-                                cubes.get(index).remove();
-                                cubes.add(index , new Cube(i*3+18, j*3-5, k*3, 2, 2, 2, Color.RED, 0,false,i,j,k));
-                                index++;
+                                if(HyperSweeper.hyperBoard.board[i][j][k][CurrentFrame] instanceof Bomb)
+                                    HyperSweeper.hyperBoard.board[i][j][k][CurrentFrame].setHidden(false);
                             }
                         }
                     }
 
-                    System.out.println("You Suck!");
+                    System.out.println("\n\nYou Suck!");
+                    jumpToFrame(CurrentFrame);
                 }
-                */
             }
         }
 
-        if (e.getButton() == MouseEvent.BUTTON3) {
+        if (e.getButton() == MouseEvent.BUTTON3 && HyperSweeper.win == null) {
             Cube temp = selectedPolygon.getAssociatedCube();
             if (selectedPolygon.getAssociatedCube().clickCount % 3 == 0) {
                 HyperSweeper.hyperBoard.flag(temp.relativeCoords[0],temp.relativeCoords[1],temp.relativeCoords[2],CurrentFrame);
