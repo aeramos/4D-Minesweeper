@@ -161,7 +161,7 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
             if (dddgons.get(newOrder[i]).drawable.mouseOver() &&
                     dddgons.get(newOrder[i]).draw &&
                     dddgons.get(newOrder[i]).drawable.visible &&
-                    dddgons.get(newOrder[i]).associatedCube == null ? false : !dddgons.get(newOrder[i]).associatedCube.seeThru) {
+                    !dddgons.get(newOrder[i]).associatedCube.seeThru) {
 
                 selectedPolygon = dddgons.get(newOrder[i]).drawable;
                 break;
