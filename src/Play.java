@@ -18,7 +18,7 @@ public class Play {
         int l = getInt(scanner, 1, Integer.MAX_VALUE, "Length (left-right): ", setupErrorMessage);
         int w = getInt(scanner, 1, Integer.MAX_VALUE, "Width (up-down): ", setupErrorMessage);
         int h = getInt(scanner, 1, Integer.MAX_VALUE, "Height (cube depth): ", setupErrorMessage);
-        int t = getInt(scanner, 1, Integer.MAX_VALUE, "Time (4th dimension): ", setupErrorMessage);
+        int t = getInt(scanner, 1, Integer.MAX_VALUE, "Fourth Dimensional Girth: ", setupErrorMessage);
         int b = getInt(scanner, 1, (l * w * h * t) - 1, "Number of bombs: ", "Invalid number: Must be an integer between 1 and " + ((l * w * h * t) - 1));
         sizes = new int[]{l,w,h,t,b};
 
