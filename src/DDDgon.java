@@ -4,12 +4,12 @@ public class DDDgon {
     Color c;
     Cube associatedCube;
     double[] x, y, z;
-    boolean draw = true, transparent;
+    boolean draw = true, transparent, notDummy;
     double[] calcPos, nX, nY;
     PolygonObject drawable;
     double avgDist;
 
-    public DDDgon(double[] xSet, double[] ySet, double[] zSet, Color color, boolean t, Cube associated) {
+    public DDDgon(double[] xSet, double[] ySet, double[] zSet, Color color, boolean t, Cube associated, boolean notD) {
         transparent = t;
         c = color;
         x = xSet;
@@ -17,10 +17,11 @@ public class DDDgon {
         z = zSet;
         associatedCube = associated;
         createPolygon();
+        notDummy = notD;
     }
 
     public void createPolygon() {
-        drawable = new PolygonObject(new double[x.length], new double[x.length], c, Screen.dddgons.size(), transparent, associatedCube);
+        drawable = new PolygonObject(new double[x.length], new double[x.length], c, Screen.dddgons.size(), transparent, associatedCube, this);
     }
 
     public void updatePolygon() {

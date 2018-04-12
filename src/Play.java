@@ -10,7 +10,9 @@ public class Play {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Welcome to 4D Minesweeper");
-        System.out.println("This game was written by Alejandroe + Ram = <3, Chris Evagora, and Bowen Li for an AP Computer Science project\n");
+        System.out.println("Select your game preferences first!\n" +
+                "Use WASD keys to move around, \nSpace to go straight upwards, and \nShift to go straight downwards.\n" +
+                "Left-click to clear the block; \nRight-click a grey block to flag it (it'll become red); \nRight-click a red block to question mark it (it'll become blue).\n");
 
         String setupErrorMessage = "Invalid number: Must be an integer greater than 0";
         int l = getInt(scanner, 1, Integer.MAX_VALUE, "Length (left-right): ", setupErrorMessage);

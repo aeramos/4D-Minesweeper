@@ -64,4 +64,11 @@ public class Calculator {
         calcFocusPos[0] = Screen.zoom * calcFocusPos[0];
         calcFocusPos[1] = Screen.zoom * calcFocusPos[1];
     }
+
+    public static int avgArr(int[] a){
+        int sum = 0;
+        for(int i : a)
+            sum += i;
+        return sum / a.length;
+    }
 }

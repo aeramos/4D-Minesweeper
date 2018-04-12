@@ -38,8 +38,12 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
     public static int twinkleCount = 0;
     public static boolean twinkleState = true;
     public static double sunSpeed = .005;
+    public static Vector localx = new Vector(-15, -5, -10).cross(new Vector(0, 0, 1)),
+            localy = localx.cross(new Vector(-15, -5, -10)),
+            localz = new Vector(15, 5, 10);
 
     public Screen(int x, int y, int z, int t) {
+
         this.addKeyListener(this);
         setFocusable(true);
 
@@ -81,6 +85,7 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
     }
 
     public void paintComponent(Graphics g) {
+
         g.setColor(Color.blue.lightGray);
         g.fillRect(0, 0, (int)HyperSweeper.screenSize.getWidth(), (int)HyperSweeper.screenSize.getHeight());
 
@@ -91,22 +96,20 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
 
         controlSunAndLight();
 
-        for (int i = 0; i < dddgons.size(); i++) {
+        for (int i = 0; i < dddgons.size(); i++)
             dddgons.get(i).updatePolygon();
-        }
 
         setOrder();
 
         setSelectedPolygon();
 
-        for (int i = 0; i < newOrder.length; i++) {
+        for (int i = 0; i < newOrder.length; i++)
             dddgons.get(newOrder[i]).drawable.draw(g);
-        }
 
         drawReticle(g);
 
         g.setFont(new Font("Comic Sans MS", Font.PLAIN, 30));
-        g.drawString("Frame " + (CurrentFrame + 1),10,35);
+        g.drawString("4th Dimension: " + (CurrentFrame + 1),10,35);
         g.drawString((HyperSweeper.hyperBoard.getBombs()) + " bombs",10,HyperSweeper.screenSize.height-10);
         g.drawString((int)viewFrom[0] + ", " + (int)viewFrom[1] + ", " + (int)viewFrom[2], 10, 65);
 
@@ -161,7 +164,7 @@ public class Screen extends JPanel implements KeyListener, MouseListener, MouseM
             if (dddgons.get(newOrder[i]).drawable.mouseOver() &&
                     dddgons.get(newOrder[i]).draw &&
                     dddgons.get(newOrder[i]).drawable.visible &&
-                    dddgons.get(newOrder[i]).associatedCube == null ? false : !dddgons.get(newOrder[i]).associatedCube.seeThru) {
+                    !dddgons.get(newOrder[i]).associatedCube.seeThru) {
 
                 selectedPolygon = dddgons.get(newOrder[i]).drawable;
                 break;

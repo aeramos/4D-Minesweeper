@@ -49,7 +49,7 @@ public class Board {
         return numberBombs;
     }
 
-    private int findBombNumber(int length, int width, int height, int time) {
+    public int findBombNumber(int length, int width, int height, int time) {
         int number = 0;
         for (int l = length - 1; l <= length + 1; l++) {
             for (int w = width - 1; w <= width + 1; w++) {

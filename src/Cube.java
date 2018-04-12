@@ -29,36 +29,39 @@ public class Cube {
 
         clickCount = cc;
 
-        polys.add(new DDDgon(new double[]{x, x + width, x + width, x}, new double[]{y, y, y + length, y + length}, new double[]{z, z, z, z}, c, transparent, this));
+        polys.add(new DDDgon(new double[]{x, x + width, x + width, x}, new double[]{y, y, y + length, y + length}, new double[]{z, z, z, z}, c, transparent, this, true));
         Screen.dddgons.add(polys.get(0));
-        polys.add(new DDDgon(new double[]{x, x + width, x + width, x}, new double[]{y, y, y + length, y + length}, new double[]{z + height, z + height, z + height, z + height}, c, transparent, this));
+        polys.add(new DDDgon(new double[]{x, x + width, x + width, x}, new double[]{y, y, y + length, y + length}, new double[]{z + height, z + height, z + height, z + height}, c, transparent, this, true));
         Screen.dddgons.add(polys.get(1));
-        polys.add(new DDDgon(new double[]{x, x, x + width, x + width}, new double[]{y, y, y, y}, new double[]{z, z + height, z + height, z}, c, transparent, this));
+        polys.add(new DDDgon(new double[]{x, x, x + width, x + width}, new double[]{y, y, y, y}, new double[]{z, z + height, z + height, z}, c, transparent, this, true));
         Screen.dddgons.add(polys.get(2));
-        polys.add(new DDDgon(new double[]{x + width, x + width, x + width, x + width}, new double[]{y, y, y + length, y + length}, new double[]{z, z + height, z + height, z}, c, transparent, this));
+        polys.add(new DDDgon(new double[]{x + width, x + width, x + width, x + width}, new double[]{y, y, y + length, y + length}, new double[]{z, z + height, z + height, z}, c, transparent, this, true));
         Screen.dddgons.add(polys.get(3));
-        polys.add(new DDDgon(new double[]{x, x, x + width, x + width}, new double[]{y + length, y + length, y + length, y + length}, new double[]{z, z + height, z + height, z}, c, transparent, this));
+        polys.add(new DDDgon(new double[]{x, x, x + width, x + width}, new double[]{y + length, y + length, y + length, y + length}, new double[]{z, z + height, z + height, z}, c, transparent, this, true));
         Screen.dddgons.add(polys.get(4));
-        polys.add(new DDDgon(new double[]{x, x, x, x}, new double[]{y, y, y + length, y + length}, new double[]{z, z + height, z + height, z}, c, transparent, this));
+        polys.add(new DDDgon(new double[]{x, x, x, x}, new double[]{y, y, y + length, y + length}, new double[]{z, z + height, z + height, z}, c, transparent, this, true));
         Screen.dddgons.add(polys.get(5));
         mine = isMine;
         if(mine){
-            polys.add(new DDDgon(new double[]{x + .5, x + width - .5, x + width - .5}, new double[]{y + .5, y + length - .5, y + .5}, new double[]{z + .5, z + .5, z + height - .5}, c, false, this));
+            polys.add(new DDDgon(new double[]{x + .5, x + width - .5, x + width - .5}, new double[]{y + .5, y + length - .5, y + .5}, new double[]{z + .5, z + .5, z + height - .5}, c, false, this, true));
             Screen.dddgons.add(polys.get(6));
-            polys.add(new DDDgon(new double[]{x + .5, x + width - .5, x + .5}, new double[]{y + .5, y + length - .5, y + length - .5}, new double[]{z + .5, z + .5, z + height - .5}, c, false, this));
+            polys.add(new DDDgon(new double[]{x + .5, x + width - .5, x + .5}, new double[]{y + .5, y + length - .5, y + length - .5}, new double[]{z + .5, z + .5, z + height - .5}, c, false, this, true));
             Screen.dddgons.add(polys.get(7));
-            polys.add(new DDDgon(new double[]{x + .5, x + .5, x + width - .5}, new double[]{y + .5, y + length - .5, y + .5}, new double[]{z + .5, z + height - .5, z + height - .5}, c, false, this));
+            polys.add(new DDDgon(new double[]{x + .5, x + .5, x + width - .5}, new double[]{y + .5, y + length - .5, y + .5}, new double[]{z + .5, z + height - .5, z + height - .5}, c, false, this, true));
             Screen.dddgons.add(polys.get(8));
-            polys.add(new DDDgon(new double[]{x + .5, x + width - .5, x + width - .5}, new double[]{y + length - .5, y + length - .5, y + .5}, new double[]{z + height - .5, z + .5, z + height - .5}, c, false, this));
+            polys.add(new DDDgon(new double[]{x + .5, x + width - .5, x + width - .5}, new double[]{y + length - .5, y + length - .5, y + .5}, new double[]{z + height - .5, z + .5, z + height - .5}, c, false, this, true));
             Screen.dddgons.add(polys.get(9));
-            polys.add(new DDDgon(new double[]{x + width - .5, x + .5, x + .5}, new double[]{y + length - .5, y + .5, y + length - .5}, new double[]{z + height - .5, z + height - .5, z + .5}, c, false, this));
+            polys.add(new DDDgon(new double[]{x + width - .5, x + .5, x + .5}, new double[]{y + length - .5, y + .5, y + length - .5}, new double[]{z + height - .5, z + height - .5, z + .5}, c, false, this, true));
             Screen.dddgons.add(polys.get(10));
-            polys.add(new DDDgon(new double[]{x + width - .5, x + .5, x + width - .5}, new double[]{y + length - .5, y + .5, y + .5}, new double[]{z + height - .5, z + height - .5, z + .5}, c, false, this));
+            polys.add(new DDDgon(new double[]{x + width - .5, x + .5, x + width - .5}, new double[]{y + length - .5, y + .5, y + .5}, new double[]{z + height - .5, z + height - .5, z + .5}, c, false, this, true));
             Screen.dddgons.add(polys.get(11));
-            polys.add(new DDDgon(new double[]{x + width - .5, x + width - .5, x + .5}, new double[]{y + length - .5, y + .5, y + length - .5}, new double[]{z + height - .5, z + .5, z + .5}, c, false, this));
+            polys.add(new DDDgon(new double[]{x + width - .5, x + width - .5, x + .5}, new double[]{y + length - .5, y + .5, y + length - .5}, new double[]{z + height - .5, z + .5, z + .5}, c, false, this, true));
             Screen.dddgons.add(polys.get(12));
-            polys.add(new DDDgon(new double[]{x + width - .5, x + .5, x + .5}, new double[]{y + .5, y + .5, y + length - .5}, new double[]{z + .5, z + height - .5, z + .5}, c, false, this));
+            polys.add(new DDDgon(new double[]{x + width - .5, x + .5, x + .5}, new double[]{y + .5, y + .5, y + length - .5}, new double[]{z + .5, z + height - .5, z + .5}, c, false, this, true));
             Screen.dddgons.add(polys.get(13));
+        }else{
+            polys.add(new DDDgon(new double[]{x + .95, x + .95, x + 1.05, x + 1.05}, new double[]{y + .95, y + 1.05, y + 1.05, y + .95}, new double[]{z + 1, z + 1, z + 1, z + 1}, c, true, this, false));
+            Screen.dddgons.add(polys.get(6));
         }
 
         setRotAdd();
