@@ -36,39 +36,17 @@ public class Board {
             for (int i = 0; i < position.length; i++) {
                 position[i] = (int)(Math.random() * dimensions[i]);
             }
-            if (get(position) == null) {
-                set(position, new Bomb());
+            if (board[getIndex(position)] == null) {
+                board[getIndex(position)] = new Bomb();
                 bombsLeftToPlace--;
             }
         } while (bombsLeftToPlace > 0);
 
-        //places empty blocks
-        // nestedLoopOperation and performOperation gotten from:
-        // https://stackoverflow.com/a/19406536/4644817
-
-        int[] length = new int[n]; // length of each dimension
-        int[] counters = new int[n]; // count up to the given length
-        Arrays.fill(counters, 0);
-        for (int i = 0; i < length.length; i++) {
-            length[i] = dimensions[i];
-        }
-        nestedLoopOperation(counters, length, 0);
-        System.out.println("dine!");
-    }
-
-    private void nestedLoopOperation(int[] counters, int[] length, int level) {
-        if (level == counters.length) { //
-            performOperation(counters);
-        } else {
-            for (counters[level] = 0; counters[level] < length[level]; counters[level]++) {
-                nestedLoopOperation(counters, length, level + 1);
+        // places empty blocks
+        for (int i = 0; i < board.length; i++) {
+            if (board[i] == null) {
+                board[i] = new Empty(findBombNumber(getPosition(i)));
             }
-        }
-    }
-
-    private void performOperation(int counters[]) {
-        if (get(counters) == null) {
-            set(counters, new Empty(findBombNumber(counters)));
         }
     }
 
@@ -77,28 +55,41 @@ public class Board {
         return 0;
     }
 
-    // get and set use Bowen's method to condense n-d arrays into a 1-d array
-    private Block get(int[] D) {
-        int index = 0;
-        int runningProduct = 1;
-        for(int i = 0; i < n; i++){
-            runningProduct *= dimensions[i];
-            index += D[i] * size / runningProduct;
+    // based on Bowen's original method to convert from n-dimensional to 1D array
+    private int getIndex(int[] position) {
+        int index = 0;   // index in 1d array
+        int multiplier = 1;
+
+        // reverse iteration through dimensions
+        // calculate value from least significant bit to most significant bit
+        // method works like a binary to decimal converter
+        for (int i = n - 1; i >=0; i--) {
+            index += multiplier * position[i];
+            multiplier *= dimensions[i];
         }
-        return board[index];
+        return index;
     }
 
-    private void set(int[] D, Block block) {
-        int index = 0;
-        int runningProduct = 1;
-        for (int i = 0; i < n; i++) {
-            runningProduct *= dimensions[i];
-            index += D[i] * size/runningProduct;
+    private int[] getPosition(int index) {
+        int[] position = new int[n];
+        int[] multipliers = new int[n];
+        multipliers[n-1] = 1;
+
+        // get the multipliers we're going to use
+        // like converting from decimal to binary but with variable bases
+        for (int i = n - 2; i >= 0; i--) {
+            multipliers[i] = multipliers[i+1] * dimensions[i+1];
         }
-        board[index] = block;
+
+        // assemble the position. each index has its own multiplier
+        for (int i = 0; i < n; i++) {
+            position[i] = index / multipliers[i];
+            index -= position[i] * multipliers[i];
+        }
+        return position;
     }
 
     public static void main(String... args) {
-        Board board = new Board(new int[]{3, 3, 3, 3, 3, 3, 3, 3, 3, 3}, 3);
+        Board board = new Board(new int[]{2,2,2,2}, 4);
     }
 }
