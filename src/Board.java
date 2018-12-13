@@ -58,7 +58,7 @@ public class Board {
                 if (board[getIndex(counters)].getClass() == Bomb.class) {
                     number++;
                 }
-            } catch (ArrayIndexOutOfBoundsException | NullPointerException ignored) {
+            } catch (NullPointerException ignored) {
             }
         } else {
             // iterate through the +- around the position in each dimension
