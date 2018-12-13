@@ -45,14 +45,31 @@ public class Board {
         // places empty blocks
         for (int i = 0; i < board.length; i++) {
             if (board[i] == null) {
-                board[i] = new Empty(findBombNumber(getPosition(i)));
+                board[i] = new Empty(getBombNumber(getPosition(i), new int[n], 0));
             }
         }
     }
 
     // finds the number of bombs touching the given position
-    private int findBombNumber(int[] position) {
-        return 0;
+    private int getBombNumber(int[] position, int[] counters, int dimension) {
+        int number = 0;
+        if (dimension == n) {
+            try {
+                if (board[getIndex(counters)].getClass() == Bomb.class) {
+                    number++;
+                }
+            } catch (ArrayIndexOutOfBoundsException | NullPointerException ignored) {
+            }
+        } else {
+            // iterate through the +- around the position in each dimension
+            for (counters[dimension] = position[dimension] - 1; counters[dimension] <= position[dimension] + 1; counters[dimension]++) {
+                // don't waste time on invalid positions that are out of the bounds
+                if (counters[dimension] >= 0 && counters[dimension] < dimensions[dimension]) {
+                    number += getBombNumber(position, counters, dimension + 1);
+                }
+            }
+        }
+        return number;
     }
 
     // based on Bowen's original method to convert from n-dimensional to 1D array
@@ -90,6 +107,6 @@ public class Board {
     }
 
     public static void main(String... args) {
-        Board board = new Board(new int[]{2,2,2,2}, 4);
+        Board board = new Board(new int[]{3,3,3}, 3);
     }
 }
