@@ -1,7 +1,10 @@
 # 4D-Minesweeper
 ### A 4-Dimensional Minesweeper game using base Java 6 and Swing
 
-This game was originally made by Alejandro Ramos, Bowen Li, and Chris Evagora
+This game was originally made by
+[Alejandro Ramos](https://github.com/aeramos),
+[Bowen Li](https://github.com/P250-SandDune), and
+[Chris Evagora](https://github.com/evagorac)
 for a high school AP Computer Science class. We were given the option to make a
 Minesweeper game for one of our final projects, and for one extra credit point
 we could make it in 3D. We decided to make it in 4D to look cool. I think our
